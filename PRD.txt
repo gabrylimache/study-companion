@@ -1,0 +1,491 @@
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+
+Pollock - Study Companion
+Project Overview
+
+Create a production-ready portfolio project called Pollock - Study Companion.
+
+Pollock is an interactive study companion that lives in the browser.
+
+The application uses webcam-based hand gesture recognition to trigger reactions from a custom animated companion.
+
+The companion already exists and MUST be reused.
+
+Do not create a new character system.
+
+Do not create a 3D avatar.
+
+Do not replace the companion framework.
+
+The companion is exported from Bible Strong Avatar Lab and provided as:
+
+avatar.avatar.json
+
+
+using:
+
+import { createAvatar } from "@bible-strong/avatar-react"
+import "@bible-strong/avatar-react/styles.css"
+import definition from "./avatar.avatar.json"
+
+const Avatar = createAvatar(definition)
+
+
+The application must be built around this system.
+
+Goals
+
+The project serves as:
+
+portfolio project
+GitHub showcase project
+computer vision demo
+study companion application
+
+The application must feel polished, fun and production-ready.
+
+Tech Stack
+
+Use:
+
+React
+TypeScript
+Vite
+TailwindCSS
+Zustand
+Framer Motion
+MediaPipe Tasks Vision
+
+
+Avoid unnecessary dependencies.
+
+No backend.
+
+No database.
+
+Everything must run entirely in the browser.
+
+Deployment Requirements
+
+The application must support:
+
+GitHub Pages
+
+Static deployment.
+
+The final build must work on GitHub Pages.
+
+Docker
+
+Include:
+
+Dockerfile
+docker-compose.yml
+
+
+Requirements:
+
+docker build
+docker run
+docker compose up
+
+
+must work without modifications.
+
+Existing Companion
+
+The companion already contains multiple animations.
+
+Known animations include:
+
+happy
+angry
+listening
+smoking
+proud
+drowsy
+shy
+scared
+
+
+There may be additional animations.
+
+The system must make it easy to add more later.
+
+Core Interaction System
+
+The webcam must be used locally through browser APIs.
+
+Use:
+
+MediaPipe Hand Landmarker
+
+
+Do not train custom machine learning models.
+
+Do not use external AI services.
+
+Do not use OpenAI APIs.
+
+Do not use cloud inference.
+
+Gesture recognition must be performed using hand landmarks and geometric rules.
+
+Official Gesture Mapping
+
+Only these gestures should control reactions.
+
+Peace Sign
+
+Gesture:
+
+Index finger + middle finger extended
+
+
+Action:
+
+happy
+
+Middle Finger
+
+Gesture:
+
+Middle finger extended
+
+
+Action:
+
+angry
+
+Index Finger Up
+
+Gesture:
+
+Single raised index finger
+
+
+Action:
+
+listening
+
+Smoking Gesture
+
+Gesture:
+
+Index + middle finger extended horizontally
+
+
+Action:
+
+smoking
+
+Cooldown System
+
+Avoid animation spam.
+
+Requirements:
+
+Gesture detected
+→ play animation
+
+Ignore new gesture triggers for 2 seconds
+
+Allow re-trigger afterwards
+
+Idle System
+
+When no gesture is detected:
+
+idle behavior
+
+
+Requirements:
+
+Randomly rotate between idle-style animations.
+
+Example:
+
+sleeping
+drowsy
+idle
+
+
+Do not use:
+
+happy
+angry
+listening
+smoking
+
+
+as idle states.
+
+Pomodoro System
+
+Create a built-in Pomodoro timer.
+
+Default:
+
+25 minutes focus
+5 minutes break
+
+
+Features:
+
+Start
+Pause
+Reset
+Next Session
+
+Companion Reactions To Pomodoro
+
+Focus started:
+
+listening
+
+
+Pomodoro completed:
+
+proud
+
+
+Break started:
+
+happy
+
+
+Long inactivity:
+
+drowsy
+
+Webcam Panel
+
+Create a webcam panel.
+
+Features:
+
+Enable camera
+Disable camera
+Show detected gesture
+Show camera status
+
+
+The camera should not occupy the entire page.
+
+Use a compact layout.
+
+Study Statistics
+
+Persist locally using:
+
+localStorage
+
+
+Track:
+
+Number of sessions
+Total minutes studied
+Current streak
+Completed pomodoros
+
+Achievement System
+
+Create lightweight achievements.
+
+Examples:
+
+First Session
+
+5 Completed Sessions
+
+10 Completed Sessions
+
+100 Minutes Studied
+
+500 Minutes Studied
+
+
+Store locally.
+
+Face Presence Detection
+
+Also use MediaPipe face detection.
+
+When face leaves frame:
+
+scared
+
+
+When face returns:
+
+happy
+
+
+Add cooldown protection.
+
+Picture-in-Picture Mode
+
+If browser supports it:
+
+Provide:
+
+Enable Companion Mode
+
+
+The companion remains visible in a smaller floating window while the user works.
+
+Gracefully fallback when Picture-in-Picture API is unavailable.
+
+UI Requirements
+
+Visual style:
+
+Minimal
+Cute
+Modern
+Clean
+Portfolio Ready
+
+
+Sections:
+
+Companion
+Pomodoro
+Statistics
+Achievements
+Webcam
+
+
+Use responsive design.
+
+Desktop first.
+
+Mobile compatible.
+
+Architecture
+
+Organize code using feature-based architecture.
+
+Example:
+
+src/
+
+assets/
+components/
+features/
+hooks/
+services/
+store/
+types/
+utils/
+
+
+Create reusable modules.
+
+Avoid giant files.
+
+Constraints
+
+- avatar.avatar.json is read-only.
+- The mascot is already completed.
+- The mascot export pipeline is already completed.
+- Do not generate a new mascot system.
+- Do not introduce AI features.
+- Do not introduce authentication.
+- Do not introduce a backend.
+- Do not introduce databases.
+- The application must remain fully static and GitHub Pages compatible.
+- Prefer a single-page architecture.
+
+README Requirements
+
+Create a professional README including:
+
+Overview
+
+Explain:
+
+what the project is
+why it was built
+technology choices
+Features
+
+List all functionality.
+
+Installation
+
+Document:
+
+npm install
+npm run dev
+
+Docker
+
+Document:
+
+docker build -t study-companion .
+docker run -p 4173:4173 study-companion
+
+
+and compose usage.
+
+Deployment
+
+Explain GitHub Pages deployment.
+
+Architecture
+
+Include diagrams showing:
+
+Webcam
+   ↓
+MediaPipe
+   ↓
+Gesture Detection
+   ↓
+State Store
+   ↓
+Avatar Animation
+
+Credits
+
+Add a dedicated section:
+
+Avatar created using Bible Strong Avatar Lab:
+
+https://github.com/smontlouis/bible-strong-avatar-lab
+
+The avatar artwork, animation setup and export pipeline were created with Bible Strong Avatar Lab.
+
+The name Pollock, as well as the idea for this app, comes from an artist that a loved one of mine was studying, and I made this app for her.
+
+Do not remove this credit.
+
+Non-Functional Requirements
+
+The application must:
+
+Run entirely in browser
+Not require backend services
+Not require authentication
+Be deployable to GitHub Pages
+Build successfully in Docker
+Be responsive
+Load quickly
+Be easy to extend with future gestures and animations
+
+Final Deliverables
+
+Produce:
+
+Production-ready source code
+README.md
+Dockerfile
+docker-compose.yml
+GitHub Pages deployment configuration
+Gesture recognition system
+Pomodoro features
+Achievement system
+Statistics system
+Picture-in-Picture support
+Fully integrated companion animation system

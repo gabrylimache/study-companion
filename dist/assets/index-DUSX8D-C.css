@@ -1,0 +1,1 @@
+@tailwind base;@tailwind components;@tailwind utilities;@layer utilities{.glass{-webkit-backdrop-filter:saturate(180%)blur(10px);backdrop-filter:saturate(180%)blur(10px);background:#ffffff1a;border:1px solid #fff3;border-radius:.75rem}}
