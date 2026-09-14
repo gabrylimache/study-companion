@@ -13,21 +13,25 @@ export default function AchievementPanel() {
   }, [stats.totalPomodoros, stats.totalFocusedMinutes, stats.totalBreakMinutes]);
 
   return (
-    <section className="p-4 bg-gray-800 rounded-lg glass">
+    <section className="p-4 bg-blue-600 rounded-lg glass">
       <h2 className="text-xl font-semibold mb-2 text-center">Achievements</h2>
-      <ul className="list-none space-y-2 text-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {achievements.map(a => (
-          <li key={a.id} className="flex justify-between items-center">
+          <div
+            key={a.id}
+            className={`flex justify-between items-center p-3 rounded-lg glass shadow-md ${a.unlocked ? 'border-2 border-amber-500' : 'opacity-50'}
+            `}
+          >
             <div>
               <span className="font-medium">{a.title}</span>
               <p className="text-gray-400 text-xs">{a.description}</p>
             </div>
-            <span className={a.unlocked ? 'text-green-400' : 'text-gray-500'}>
+            <span className={a.unlocked ? 'text-amber-400' : 'text-gray-500'}>
               {a.unlocked ? 'Unlocked' : 'Locked'}
             </span>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
   );
 }

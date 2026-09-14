@@ -2,117 +2,227 @@
 
 ## Completed Features
 
-- **Webcam**
-  - Implementation Status: ✅ Complete
-  - Main Files: `src/features/webcam/WebcamPanel.tsx`, `src/features/webcam/useHandLandmarker.ts`, `src/features/webcam/webcamStore.ts`
+### Webcam
+- Status: ✅ Complete
+- Shared webcam stream used by both Hand Tracking and Face Detection
+- Main Files:
+  - src/features/webcam/WebcamPanel.tsx
+  - src/features/webcam/useHandLandmarker.ts
+  - src/features/webcam/webcamStore.ts
 
-- **MediaPipe Hand Tracking**
-  - Implementation Status: ✅ Complete
-  - Main Files: `src/features/webcam/useHandLandmarker.ts`
+### MediaPipe Hand Tracking
+- Status: ✅ Complete
+- Main Files:
+  - src/features/webcam/useHandLandmarker.ts
 
-- **Gesture Recognition**
-  - Implementation Status: ✅ Complete
-  - Main Files: `src/features/gesture/gestureRecognizer.ts`, `src/features/gesture/gestureStore.ts`, `src/features/gesture/gestureTypes.ts`
+### Gesture Recognition
+- Status: ✅ Complete
+- Gesture Mapping:
+  - Peace Sign → happy
+  - Middle Finger → angry
+  - Index Finger → listening
+  - Open Hand → smoking
+- Main Files:
+  - src/features/gesture/gestureRecognizer.ts
+  - src/features/gesture/gestureStore.ts
+  - src/features/gesture/gestureTypes.ts
 
-- **Avatar Integration**
-  - Implementation Status: ✅ Complete
-  - Main Files: `src/features/avatar/avatarStore.ts`, `src/features/avatar/avatarComponent.tsx`, `src/features/pomodoro/pomodoroAvatarBridge.tsx`
+### Face Detection
+- Status: ✅ Complete
+- Uses MediaPipe Face Detector with local model.
+- Shared webcam source with Hand Tracking.
+- Avatar Reactions:
+  - Face detected → happy
+  - Face missing > 5 seconds → scared
+  - Face returns → happy
+- Main Files:
+  - src/features/face/useFaceDetector.ts
+  - src/features/face/faceStore.ts
+  - src/features/face/FaceAvatarBridge.tsx
+  - public/models/blaze_face_short_range.tflite
 
-- **Idle Manager**
-  - Implementation Status: ✅ Complete
-  - Main Files: `src/features/idle/idleStore.ts`, `src/features/idle/idleManager.ts`
+### Avatar Integration
+- Status: ✅ Complete
+- Main Files:
+  - src/features/avatar/avatarStore.ts
+  - src/features/avatar/avatarComponent.tsx
+  - src/features/pomodoro/pomodoroAvatarBridge.tsx
+  - src/features/face/FaceAvatarBridge.tsx
 
-- **Developer Mode**
-  - Implementation Status: ✅ Complete
-  - Main Files: `src/features/dev/DeveloperModePanel.tsx`
+### Idle Manager
+- Status: ✅ Complete
+- Idle Animations:
+  - idle
+  - sleeping
+  - drowsy
+- Main Files:
+  - src/features/idle/idleStore.ts
+  - src/features/idle/idleManager.ts
 
-- **Pomodoro**
-  - Implementation Status: ✅ Complete (timer, phase label, start/pause/resume/reset)
-  - Main Files: `src/features/pomodoro/PomodoroPanel.tsx`, `src/features/pomodoro/pomodoroStore.ts`
+### Developer Mode
+- Status: ✅ Complete
+- Displays:
+  - Camera Status
+  - Face Detection Status
+  - Face Present
+  - Face Cooldown
+  - Current Gesture
+  - Current Avatar Animation
+  - Pomodoro Debug Mode
+- Main Files:
+  - src/features/dev/DeveloperModePanel.tsx
 
-- **Statistics**
-  - Implementation Status: ✅ Complete
-  - Main Files: `src/features/stats/statsStore.ts`, `src/features/stats/StatsPanel.tsx`
+### Pomodoro
+- Status: ✅ Complete
+- Features:
+  - Start
+  - Pause
+  - Resume
+  - Reset
+  - Focus
+  - Short Break
+  - Long Break
+  - Debug Mode
+- Avatar Reactions:
+  - Focus → listening
+  - Break → happy
+  - Completion → proud
+- Main Files:
+  - src/features/pomodoro/PomodoroPanel.tsx
+  - src/features/pomodoro/pomodoroStore.ts
+  - src/features/pomodoro/pomodoroAvatarBridge.tsx
 
-- **Achievements**
-  - Implementation Status: ✅ Complete (basic store, UI)
-  - Main Files: `src/features/achievement/achievementStore.ts`, `src/features/achievement/AchievementPanel.tsx`
+### Statistics
+- Status: ✅ Complete
+- Main Files:
+  - src/features/stats/statsStore.ts
+  - src/features/stats/StatsPanel.tsx
 
-- **LocalStorage Persistence**
-  - Implementation Status: ✅ Complete (used by pomodoro, stats, achievement stores)
-  - Main Files: `src/lib/localStorage.ts`
+### Achievements
+- Status: ✅ Complete
+- Main Files:
+  - src/features/achievement/achievementStore.ts
+  - src/features/achievement/AchievementPanel.tsx
+
+### LocalStorage Persistence
+- Status: ✅ Complete
+- Main Files:
+  - src/lib/localStorage.ts
+
+---
 
 ## Architecture
 
-**Webcam Pipeline**
-```
-WebcamPanel
-  → useHandLandmarker (MediaPipe Hand Landmarker)
-    → provides hand landmarks
-      → Gesture Recognition (`recognizeGesture`)
-        → updates Gesture Store
-          → Avatar Store reacts via `pomodoroAvatarBridge` / other bridges
-```
+### Webcam Pipeline
 
-**Pomodoro Flow**
-```
-PomodoroPanel (uses usePomodoroStore)
-  → Pomodoro Store (state machine)
-    → on phase changes updates Stats Store
-    → updates Achievements Store
-    → triggers Avatar reactions via `pomodoroAvatarBridge`
-```
+Webcam
+→ Shared Camera Stream
+→ Hand Tracking (MediaPipe)
+→ Gesture Recognition
+→ Gesture Store
+→ Avatar Store
 
-## Important Files
-- `src/App.tsx` – Root component mounting all panels (Webcam, Pomodoro, Stats, Achievements, Developer Mode).
-- `src/features/webcam/WebcamPanel.tsx` – UI for camera control and status display.
-- `src/features/webcam/useHandLandmarker.ts` – Handles MediaPipe model loading, video stream, landmark detection, and syncs camera state via `webcamStore`.
-- `src/features/webcam/webcamStore.ts` – Shared Zustand store for camera `running` flag.
-- `src/features/gesture/gestureRecognizer.ts` – Maps hand landmarks to gesture names.
-- `src/features/gesture/gestureStore.ts` – Stores current gesture.
-- `src/features/avatar/avatarStore.ts` – Central store for avatar target (animation or expression).
-- `src/features/avatar/avatarComponent.tsx` – Renders the avatar based on store state.
-- `src/features/pomodoro/pomodoroStore.ts` – Pomodoro timer logic, persisted via localStorage.
-- `src/features/pomodoro/PomodoroPanel.tsx` – UI with phase label, controls, stats hooks, and avatar reaction effects.
-- `src/features/pomodoro/pomodoroAvatarBridge.tsx` – Bridges pomodoro phases to avatar animations.
-- `src/features/stats/statsStore.ts` – Tracks pomodoro count, focused/break minutes, streaks.
-- `src/features/stats/StatsPanel.tsx` – UI for displaying statistics.
-- `src/features/achievement/achievementStore.ts` – Stores achievement progress, with defensive defaults.
-- `src/features/achievement/AchievementPanel.tsx` – UI for showing achievements.
-- `src/lib/localStorage.ts` – Helper for saving/loading JSON state.
-- `src/features/dev/DeveloperModePanel.tsx` – Debug panel showing camera, gesture, avatar state and Pomodoro debug toggle.
+Webcam
+→ Shared Camera Stream
+→ Face Detection (MediaPipe)
+→ Face Store
+→ Face Avatar Bridge
+→ Avatar Store
 
-## Known Bugs
-- None critical after recent fixes; all panels render without console errors.
-- Tailwind `@tailwind` directives generate warnings in the production build (non‑blocking).
-- Avatar reactions for **Pomodoro Completed** rely on the bridge; ensure the bridge remains mounted.
+### Pomodoro Pipeline
 
-## Stable Components
-These should not be altered unless fixing a bug:
-- Webcam (`WebcamPanel`, `useHandLandmarker`, `webcamStore`)
-- MediaPipe integration (`useHandLandmarker`)
-- Gesture Recognition (`gestureRecognizer`, `gestureStore`)
-- Avatar Integration (`avatarStore`, `avatarComponent`, `pomodoroAvatarBridge`)
-- Idle Manager (`idleStore`, `idleManager`)
-
-## Next Development Phase (Phase 3)
-1. **Face Detection** – Add MediaPipe Face Mesh and expose detection status.
-2. **Companion Mode** – Picture‑in‑Picture view that shows the avatar alongside the webcam feed.
-
-## Future Phase
-1. Docker containerization for reproducible builds.
-2. Deploy to GitHub Pages.
-3. CI/CD with GitHub Actions (build, test, deploy).
-4. Polish README with setup, architecture diagram, and usage instructions.
-
-## How to Resume Development
-1. Clone the repository and run `npm install`.
-2. `npm run dev` – start the Vite dev server.
-3. Verify the UI shows Webcam, Pomodoro, Stats, Achievements, and Developer Mode panels.
-4. For new features, create a new feature folder under `src/features/` following existing naming conventions.
-5. Add Zustand stores for state, update `App.tsx` to mount new components, and write unit tests under `src/__tests__/`.
-6. Run `npm run build` to ensure production build passes.
-7. Commit changes with clear PR titles referencing the feature or bug.
+Pomodoro Panel
+→ Pomodoro Store
+→ Statistics Store
+→ Achievement Store
+→ Pomodoro Avatar Bridge
+→ Avatar Store
 
 ---
-*Generated on 2026‑09‑14 by Antigravity.*
+
+## Avatar Priority System
+
+Priority order:
+
+Gesture
+>
+Face Detection
+>
+Pomodoro Events
+>
+Idle Manager
+
+Examples:
+
+Middle Finger
+→ angry
+
+even if
+
+Face detected
+→ happy
+
+Gesture animations always win.
+
+---
+
+## Important Models
+
+### Hand Tracking
+public/models/hand_landmarker.task
+
+### Face Detection
+public/models/blaze_face_short_range.tflite
+
+---
+
+## Stable Components
+
+Do NOT modify unless fixing a bug:
+
+- Webcam
+- Shared Camera Stream
+- Hand Tracking
+- Face Detection
+- Gesture Recognition
+- Avatar Integration
+- Idle Manager
+- Pomodoro Core Logic
+
+---
+
+## Known Bugs
+
+None critical.
+
+Minor:
+- Tailwind build warnings remain non-blocking.
+- Face detection quality depends on lighting conditions.
+- Gesture detection quality depends on camera angle.
+
+---
+
+## Current UI
+
+Left Column:
+- Avatar
+- Pomodoro
+
+Right Column:
+- Webcam
+- Statistics
+- Achievements
+- Developer Mode
+
+---
+
+## Current Development Status
+
+✅ Phase 1 Complete
+
+✅ Phase 2 Complete
+
+✅ Phase 3 Complete
+
+Next target:
+Phase 4

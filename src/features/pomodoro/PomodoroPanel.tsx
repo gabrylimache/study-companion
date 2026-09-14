@@ -52,64 +52,29 @@ export default function PomodoroPanel() {
 
   // Simple UI – placed beside webcam per user request
   return (
-    <div className="flex flex-col gap-2 p-4 bg-gray-800 rounded-lg glass">
+    <section className="p-4 bg-white rounded-lg glass">
       <h2 className="text-xl font-semibold text-center">Pomodoro Timer</h2>
-      <div className="text-center text-sm font-medium capitalize">
+      <div className={`text-center text-sm font-medium capitalize ${phase === 'work' ? 'text-[#D98880]' : phase === 'shortBreak' ? 'text-[#8AA8C8]' : phase === 'longBreak' ? 'text-[#A894C8]' : ''}`}>
         {phase === 'idle' ? '' : phase === 'work' ? 'Focus Session' : phase === 'shortBreak' ? 'Short Break' : phase === 'longBreak' ? 'Long Break' : ''}
       </div>
-      <div className="text-3xl font-mono text-center">
+      <div className="text-5xl font-mono text-center text-teal-400">
         {phase !== 'idle' ? formatTime(remaining) : '--:--'}
       </div>
-      <div className="flex justify-center gap-2">
-        {/* Start button – only when idle */}
+      <div className="flex justify-center gap-2 mt-2">
         {phase === 'idle' && (
-          <button
-            className="px-4 py-2 bg-green-600 rounded hover:bg-green-500 transition"
-            onClick={start}
-          >
-            Start
-          </button>
+          <button className="px-4 py-2 bg-teal-600 hover:bg-teal-500 rounded transition" onClick={start}>Start</button>
         )}
-        {/* Pause button – when running (not idle and not paused) */}
         {phase !== 'idle' && !isPaused && (
-          <button
-            className="px-4 py-2 bg-yellow-600 rounded hover:bg-yellow-500 transition"
-            onClick={pause}
-          >
-            Pause
-          </button>
+          <button className="px-4 py-2 bg-teal-600 hover:bg-teal-500 rounded transition" onClick={pause}>Pause</button>
         )}
-        {/* Resume button – when paused */}
         {phase !== 'idle' && isPaused && (
-          <button
-            className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-5 transition"
-            onClick={resume}
-          >
-            Resume
-          </button>
+          <button className="px-4 py-2 bg-teal-600 hover:bg-teal-500 rounded transition" onClick={resume}>Resume</button>
         )}
-        <button
-          className="px-4 py-2 bg-red-600 rounded hover:bg-red-500 transition"
-          onClick={reset}
-        >
-          Reset
-        </button>
+        <button className="px-4 py-2 bg-red-600 hover:bg-red-500 rounded transition" onClick={reset}>Reset</button>
       </div>
       <div className="text-sm text-center mt-2">
         Cycles completed: {cyclesCompleted}
       </div>
-      {/* Optional configurable durations – hidden unless needed */}
-      {/*
-      <div className="mt-2">
-        <label className="block">Work (min)</label>
-        <input
-          type="number"
-          value={workDuration / 60}
-          onChange={e => setDurations(Number(e.target.value) * 60, shortBreakDuration, longBreakDuration)}
-          className="w-16 p-1 rounded bg-gray-700 text-center"
-        />
-      </div>
-      */}
-    </div>
+    </section>
   );
 }
