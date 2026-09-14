@@ -12,7 +12,7 @@ export default function StatsPanel() {
     longestStreak,
   } = useStatsStore();
   const { cyclesCompleted } = usePomodoroStore();
-
+  const formatStat = (value: number) => Number(value.toFixed(2));
   return (
     <section className="p-6 bg-[#2A313A] rounded-xl shadow-2xl glass border border-[#3A434E]">
       <h2 className="text-2xl font-bold mb-4 text-center text-[#E8EAF0]">Study Statistics</h2>
@@ -25,12 +25,12 @@ export default function StatsPanel() {
         <div className="bg-[#2A313A] border border-[#3A434E] rounded-xl p-6 shadow-lg flex flex-col items-center">
           <span role="img" aria-label="focus" className="text-3xl mb-2">🔥</span>
           <div className="text-sm text-[#AEB7C4] uppercase mb-1">Focus Minutes</div>
-          <div className="text-4xl font-bold text-[#D28C8C]">{totalFocusedMinutes}</div>
+          <div className="text-4xl font-bold text-[#D28C8C]">{formatStat(totalFocusedMinutes)}</div>
         </div>
         <div className="bg-[#2A313A] border border-[#3A434E] rounded-xl p-6 shadow-lg flex flex-col items-center">
           <span role="img" aria-label="break" className="text-3xl mb-2">⏰</span>
           <div className="text-sm text-[#AEB7C4] uppercase mb-1">Break Minutes</div>
-          <div className="text-4xl font-bold text-[#7DA6C6]">{totalBreakMinutes}</div>
+          <div className="text-4xl font-bold text-[#7DA6C6]">{formatStat(totalBreakMinutes)}</div>
         </div>
         <div className="bg-[#2A313A] border border-[#3A434E] rounded-xl p-6 shadow-lg flex flex-col items-center">
           <span role="img" aria-label="streak" className="text-3xl mb-2">📈</span>
