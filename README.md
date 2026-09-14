@@ -15,7 +15,7 @@ https://gabrylimache.github.io/study-companion/](https://gabrylimache.github.io/
 ## Screenshots
 
 ### Overview
-![overview](README_images/overview.png)
+![overview](README_images/home.png)
 
 ### Gesture Recognition
 Open Hand for smoking break 🚬
