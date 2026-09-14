@@ -54,8 +54,9 @@ export default function App() {
           </section>
         </section>
       </main>
+      <FaceAvatarBridge />
       <CompanionMode />
-      <footer className="p-2 text-center text-sm opacity-70">© Pollock Study Companion</footer>
+      <footer className="p-2 text-center text-sm opacity-70">With love for Pallino and its owner</footer>
     </div>
   );
 }
