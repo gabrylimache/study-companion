@@ -19,7 +19,7 @@ export function useFaceDetector(videoRef: React.RefObject<HTMLVideoElement | nul
         );
         const detector = await FaceDetector.createFromOptions(fileset, {
           baseOptions: {
-            modelAssetPath: `/models/blaze_face_short_range.tflite`,
+            modelAssetPath: `${import.meta.env.BASE_URL}models/blaze_face_short_range.tflite`,
             delegate: 'GPU'
           },
           runningMode: 'VIDEO',

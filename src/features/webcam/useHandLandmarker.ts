@@ -42,7 +42,7 @@ export function useHandLandmarker() {
         console.log('MediaPipe fileset resolved');
         landmarker = await HandLandmarker.createFromOptions(fileset, {
           baseOptions: {
-            modelAssetPath: `/models/hand_landmarker.task`
+            modelAssetPath: `${import.meta.env.BASE_URL}models/hand_landmarker.task`
           },
           runningMode: 'VIDEO',
           numHands: 1
