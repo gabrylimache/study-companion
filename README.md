@@ -6,12 +6,6 @@ The application runs entirely in the browser and does not require any backend se
 
 ---
 
-## Live Demo
-
-https://gabrylimache.github.io/study-companion/](https://gabrylimache.github.io/study-companion/)
-
----
-
 ## Screenshots
 
 ### Overview
